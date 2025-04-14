@@ -21,15 +21,42 @@ export default function move(gameState){
         
     } else if (myNeck.y > myHead.y) { // Neck is above head, don't move up
         moveSafety.up = false;
-    }
+    } 
     
     // TODO: Step 1 - Prevent your Battlesnake from moving out of bounds
     // gameState.board contains an object representing the game board including its width and height
     // https://docs.battlesnake.com/api/objects/board
-    
+    // gameState.board
+    console.log(gameState.board.height);
+    if (myHead.x + 1 > gameState.board.width-1) {
+        console.log("no right");
+        moveSafety.right = false
+    }
+    if (myHead.x - 1 <= 0) {
+        console.log("no left");
+        moveSafety.left = false
+    }
+    if (myHead.y + 1 > gameState.board.height-1) {
+        console.log("no up");
+        moveSafety.up = false
+    }
+    if (myHead.y - 1 <= 0) {
+        console.log("no down");
+        moveSafety.down = false
+    }
     // TODO: Step 2 - Prevent your Battlesnake from colliding with itself
     // gameState.you contains an object representing your snake, including its coordinates
     // https://docs.battlesnake.com/api/objects/battlesnake
+    // if (myHead.x>) {
+        
+    // }
+    // console.log();
+        console.log(gameState.you.body.x)
+    
+    // for (let i = 0; i < gameState.you.body; i++) {
+        
+        
+    // }
     
     
     // TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
@@ -42,6 +69,8 @@ export default function move(gameState){
     //.filter() filters the array based on the function provided as an argument (using arrow function syntax here)
     //In this case we want to filter out any of these directions for which moveSafety[direction] == false
     const safeMoves = Object.keys(moveSafety).filter(direction => moveSafety[direction]);
+    console.log(safeMoves);
+    
     if (safeMoves.length == 0) {
         console.log(`MOVE ${gameState.turn}: No safe moves detected! Moving down`);
         return { move: "down" };
