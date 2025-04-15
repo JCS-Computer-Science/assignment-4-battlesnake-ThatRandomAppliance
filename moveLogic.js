@@ -32,7 +32,7 @@ export default function move(gameState){
         console.log("no right");
         moveSafety.right = false
     }
-    if (myHead.x - 1 <= 0) {
+    if (myHead.x - 1 == -1) {
         console.log("no left");
         moveSafety.left = false
     }
@@ -40,7 +40,7 @@ export default function move(gameState){
         console.log("no up");
         moveSafety.up = false
     }
-    if (myHead.y - 1 <= 0) {
+    if (myHead.y - 1 == -1) {
         console.log("no down");
         moveSafety.down = false
     }
@@ -51,12 +51,40 @@ export default function move(gameState){
         
     // }
     // console.log();
-        console.log(gameState.you.body.x)
     
-    // for (let i = 0; i < gameState.you.body; i++) {
+    for (let i = 0; i < gameState.you.body.length; i++) {
+        // console.log("x-cord:"+gameState.you.body[i].x)
+        if (myHead.y == gameState.you.body[i].y) {
+            console.log("same y");
+            console.log("cords"+"("+gameState.you.body[i].x+","+gameState.you.body[i].y+")");
+            
+            if (myHead.x++ == gameState.you.body[i].x--) {
+                // console.log("no collide right");
+                // console.log("y-cord:"+gameState.you.body[i].y)
+                moveSafety.right = false
+            }
+            if (myHead.x-- == gameState.you.body[i].x++) {
+                // console.log("no collide left");
+                // console.log("y-cord:"+gameState.you.body[i].y)
+                moveSafety.left = false
+            }
+        }
+        if (myHead.x == gameState.you.body[i].x) {
+            console.log("same x");
+            console.log("cords"+"("+gameState.you.body[i].x+","+gameState.you.body[i].y+")");
+            if (myHead.y++ == gameState.you.body[i].y--) {
+                // console.log("no collide up");
+                // console.log("x-cord:"+gameState.you.body[i].x)
+                moveSafety.up = false
+            }
+            if (myHead.y-- == gameState.you.body[i].y++) {
+                // console.log("no collide down");
+                // console.log("x-cord:"+gameState.you.body[i].x)
+                moveSafety.down = false
+            }  
+        }
         
-        
-    // }
+    }
     
     
     // TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
