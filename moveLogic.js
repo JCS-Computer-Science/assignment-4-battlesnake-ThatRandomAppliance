@@ -32,7 +32,7 @@ export default function move(gameState){
         console.log("no right");
         moveSafety.right = false
     }
-    if (myHead.x - 1 == -1) {
+    if (myHead.x - 1 < 0) {
         console.log("no left");
         moveSafety.left = false
     }
@@ -40,7 +40,7 @@ export default function move(gameState){
         console.log("no up");
         moveSafety.up = false
     }
-    if (myHead.y - 1 == -1) {
+    if (myHead.y - 1 < 0) {
         console.log("no down");
         moveSafety.down = false
     }
@@ -51,45 +51,29 @@ export default function move(gameState){
         
     // }
     // console.log();
-    
-    for (let i = 0; i < gameState.you.body.length; i++) {
-        // console.log("x-cord:"+gameState.you.body[i].x)
-        if (myHead.y == gameState.you.body[i].y) {
-            console.log("same y");
-            console.log("cords"+"("+gameState.you.body[i].x+","+gameState.you.body[i].y+")");
-            
-            if (myHead.x++ == gameState.you.body[i].x--) {
-                // console.log("no collide right");
-                // console.log("y-cord:"+gameState.you.body[i].y)
-                moveSafety.right = false
-            }
-            if (myHead.x-- == gameState.you.body[i].x++) {
-                // console.log("no collide left");
-                // console.log("y-cord:"+gameState.you.body[i].y)
-                moveSafety.left = false
-            }
+    const myBody = gameState.you.body
+    for (let i = 0; i < myBody.length; i++) {
+        let segment = myBody[i]
+        if (myHead.y == segment.y && myHead.x == segment.x-1) {
+            moveSafety.right = false
         }
-        if (myHead.x == gameState.you.body[i].x) {
-            console.log("same x");
-            console.log("cords"+"("+gameState.you.body[i].x+","+gameState.you.body[i].y+")");
-            if (myHead.y++ == gameState.you.body[i].y--) {
-                // console.log("no collide up");
-                // console.log("x-cord:"+gameState.you.body[i].x)
-                moveSafety.up = false
-            }
-            if (myHead.y-- == gameState.you.body[i].y++) {
-                // console.log("no collide down");
-                // console.log("x-cord:"+gameState.you.body[i].x)
-                moveSafety.down = false
-            }  
+        else if (myHead.y == segment.y && myHead.x == segment.x+1) {
+            moveSafety.left = false
         }
-        
+
+        else if (myHead.x == segment.x && myHead.y == segment.y-1) {
+            moveSafety.up = false
+        }
+        else if (myHead.x == segment.x && myHead.y == segment.y+1) {
+            moveSafety.down = false
+        }
     }
     
     
     // TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
     // gameState.board.snakes contains an array of enemy snake objects, which includes their coordinates
     // https://docs.battlesnake.com/api/objects/battlesnake
+    
     
     // Are there any safe moves left?
     
