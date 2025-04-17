@@ -29,19 +29,19 @@ export default function move(gameState){
     // gameState.board
     console.log(gameState.board.height);
     if (myHead.x + 1 > gameState.board.width-1) {
-        console.log("no right");
+        // console.log("no right");
         moveSafety.right = false
     }
     if (myHead.x - 1 < 0) {
-        console.log("no left");
+        // console.log("no left");
         moveSafety.left = false
     }
     if (myHead.y + 1 > gameState.board.height-1) {
-        console.log("no up");
+        // console.log("no up");
         moveSafety.up = false
     }
     if (myHead.y - 1 < 0) {
-        console.log("no down");
+        // console.log("no down");
         moveSafety.down = false
     }
     // TODO: Step 2 - Prevent your Battlesnake from colliding with itself
@@ -73,7 +73,38 @@ export default function move(gameState){
     // TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
     // gameState.board.snakes contains an array of enemy snake objects, which includes their coordinates
     // https://docs.battlesnake.com/api/objects/battlesnake
+    let aSneks = gameState.board.snakes
+    for (let z = 1; z < aSneks.length; z++) {
+        let aSnekC = aSneks[z]
+        for (let s = 0; s < aSnekC.body.length; s++) {
+            let aSnekBody = aSnekC.body[s]
+            // console.log("snake:"+aSnekC.body[s].x);
+            if (aSnekBody.x == myHead.x && aSnekBody.y+1 == myHead.y) {
+                console.log(aSnekBody.x +" , "+ myHead.x);
+                moveSafety.down = false
+            }
+            if (aSnekBody.x == myHead.x && aSnekBody.y-1 == myHead.y) {
+                console.log(aSnekBody.x +" , "+ myHead.x);
+                moveSafety.up = false
+            }
+            if (aSnekBody.y == myHead.y && aSnekBody.x-1 == myHead.x) {
+                console.log(aSnekBody.x +" , "+ myHead.x);
+                moveSafety.right = false
+            }
+            if (aSnekBody.y == myHead.y && aSnekBody.x+1 == myHead.x) {
+                console.log(aSnekBody.x +" , "+ myHead.x);
+                moveSafety.left = false
+            }
+        }
+    }
+
     
+    // console.log(aSneks);
+    
+    // for (let y = 0; y < a.length; y++) {
+        // aSnekCords.push(aSneks[i]
+        
+    // }
     
     // Are there any safe moves left?
     
