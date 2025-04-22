@@ -1,3 +1,7 @@
+// const PF = import('pathfinding');
+// var grid = new PF.Grid(10, 10);
+
+
 export default function move(gameState){
     let moveSafety = {
         up: true,
@@ -7,7 +11,7 @@ export default function move(gameState){
     };
     
     // We've included code to prevent your Battlesnake from moving backwards
-    const myHead = gameState.you.body[0];
+    const myHead = gameState.you.body[0]; 
     const myNeck = gameState.you.body[1];
     
     if (myNeck.x < myHead.x) {        // Neck is left of head, don't move left
@@ -73,36 +77,38 @@ export default function move(gameState){
     // TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
     // gameState.board.snakes contains an array of enemy snake objects, which includes their coordinates
     // https://docs.battlesnake.com/api/objects/battlesnake
-    let aSneks = gameState.board.snakes
-    for (let z = 1; z < aSneks.length; z++) {
-        let aSnekC = aSneks[z]
-        for (let s = 0; s < aSnekC.body.length; s++) {
-            let aSnekBody = aSnekC.body[s]
-            // console.log("snake:"+aSnekC.body[s].x);
-            if (aSnekBody.x == myHead.x && aSnekBody.y+1 == myHead.y) {
-                console.log(aSnekBody.x +" , "+ myHead.x);
+    let sneks = gameState.board.snakes
+    for (let z = 1; z < sneks.length; z++) {
+        let snekC = sneks[z]
+        for (let s = 0; s < snekC.body.length; s++) {
+            let snekBody = snekC.body[s]
+            let snekHead = snekC.head
+            console.log("snake:"+snekC.head.x);
+            if (snekBody.x == myHead.x && snekBody.y+1 == myHead.y || snekHead.x == myHead.x && snekHead.y+2 == myHead.y) {
+                console.log(snekBody.x +" , "+ myHead.x);
                 moveSafety.down = false
             }
-            if (aSnekBody.x == myHead.x && aSnekBody.y-1 == myHead.y) {
-                console.log(aSnekBody.x +" , "+ myHead.x);
+            if (snekBody.x == myHead.x && snekBody.y-1 == myHead.y || snekHead.x == myHead.x && snekHead.y-2 == myHead.y) {
+                console.log(snekBody.x +" , "+ myHead.x);
                 moveSafety.up = false
             }
-            if (aSnekBody.y == myHead.y && aSnekBody.x-1 == myHead.x) {
-                console.log(aSnekBody.x +" , "+ myHead.x);
+            if (snekBody.y == myHead.y && snekBody.x-1 == myHead.x || snekHead.x-2 == myHead.x && snekHead.y == myHead.y) {
+                console.log(snekBody.x +" , "+ myHead.x);
                 moveSafety.right = false
             }
-            if (aSnekBody.y == myHead.y && aSnekBody.x+1 == myHead.x) {
-                console.log(aSnekBody.x +" , "+ myHead.x);
+            if (snekBody.y == myHead.y && snekBody.x+1 == myHead.x || snekHead.x+2 == myHead.x && snekHead.y == myHead.y) {
+                console.log(snekBody.x +" , "+ myHead.x);
                 moveSafety.left = false
             }
         }
     }
 
+    console.log("grid"+gameState.board);
     
-    // console.log(aSneks);
+    // console.log(sneks);
     
     // for (let y = 0; y < a.length; y++) {
-        // aSnekCords.push(aSneks[i]
+        // snekCords.push(sneks[i]
         
     // }
     
