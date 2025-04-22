@@ -1,4 +1,4 @@
-// const PF = import('pathfinding');
+import * as PF from 'pathfinding'
 // var grid = new PF.Grid(10, 10);
 
 
@@ -33,19 +33,19 @@ export default function move(gameState){
     // gameState.board
     console.log(gameState.board.height);
     if (myHead.x + 1 > gameState.board.width-1) {
-        // console.log("no right");
+        console.log("no right");
         moveSafety.right = false
     }
     if (myHead.x - 1 < 0) {
-        // console.log("no left");
+        console.log("no left");
         moveSafety.left = false
     }
     if (myHead.y + 1 > gameState.board.height-1) {
-        // console.log("no up");
+        console.log("no up");
         moveSafety.up = false
     }
     if (myHead.y - 1 < 0) {
-        // console.log("no down");
+        console.log("no down");
         moveSafety.down = false
     }
     // TODO: Step 2 - Prevent your Battlesnake from colliding with itself
