@@ -1,8 +1,16 @@
-import * as PF from 'pathfinding'
-// var grid = new PF.Grid(10, 10);
+// import * as PF from 'pathfinding'
 
+// let finder = new PF.AStarFinder()
 
 export default function move(gameState){
+    // let gridW = gameState.board.width
+    // let gridH = gameState.board.height
+    // let grid = new PF.Grid(gridW, gridH); 
+    // console.log(grid);
+    
+    // We've included code to prevent your Battlesnake from moving backwards
+    const myHead = gameState.you.body[0]; 
+    const myNeck = gameState.you.body[1];
     let moveSafety = {
         up: true,
         down: true,
@@ -10,9 +18,6 @@ export default function move(gameState){
         right: true
     };
     
-    // We've included code to prevent your Battlesnake from moving backwards
-    const myHead = gameState.you.body[0]; 
-    const myNeck = gameState.you.body[1];
     
     if (myNeck.x < myHead.x) {        // Neck is left of head, don't move left
         moveSafety.left = false;
