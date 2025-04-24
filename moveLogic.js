@@ -1,11 +1,41 @@
 // import * as PF from 'pathfinding'
 
 // let finder = new PF.AStarFinder()
+    let snekBody;
+    let snekHead;
 
+    // let grid=[];
+    // function gridMaker(gameState, snekBody, snekHead) {
+    //     for (let h = 0; h < gameState.board.height; h++) {
+    //         grid.push([])
+    //         if (h==snekBody.y||h==snekHead.y) {
+    //             for (let w = 0; w < gameState.board.width; w++) {
+    //                 if (w==snekBody.x||w==snekHead.x) {
+    //                     grid[h].push(0)
+    //                 }
+    //                 else {
+    //                     grid[h].push(1)
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return grid
+    // }
+
+// function floodFill(grid, x, y, target, start) {
+//     if (x < 0 || x >= grid[0].length || y < 0 || y >= grid.length || grid[y][x] !== start) {
+//         return;
+//     }
+
+//     grid[y][x] = target;
+
+//     floodFill(grid, x + 1, y, target, start);
+//     floodFill(grid, x - 1, y, target, start);
+//     floodFill(grid, x, y + 1, target, start);
+//     floodFill(grid, x, y - 1, target, start);
+//     console.log("flood");
+// }
 export default function move(gameState){
-    // let gridW = gameState.board.width
-    // let gridH = gameState.board.height
-    // let grid = new PF.Grid(gridW, gridH); 
     // console.log(grid);
     
     // We've included code to prevent your Battlesnake from moving backwards
@@ -86,8 +116,8 @@ export default function move(gameState){
     for (let z = 1; z < sneks.length; z++) {
         let snekC = sneks[z]
         for (let s = 0; s < snekC.body.length; s++) {
-            let snekBody = snekC.body[s]
-            let snekHead = snekC.head
+            snekBody = snekC.body[s]
+            snekHead = snekC.head
             console.log("snake:"+snekC.head.x);
             if (snekBody.x == myHead.x && snekBody.y+1 == myHead.y || snekHead.x == myHead.x && snekHead.y+2 == myHead.y) {
                 console.log(snekBody.x +" , "+ myHead.x);
@@ -108,14 +138,12 @@ export default function move(gameState){
         }
     }
 
-    console.log("grid"+gameState.board);
-    
-    // console.log(sneks);
-    
-    // for (let y = 0; y < a.length; y++) {
-        // snekCords.push(sneks[i]
-        
-    // }
+    // gridMaker(gameState, snekBody, snekHead)
+    // let startTX = myHead.x
+    // let startTY = myHead.y
+    // let target = 2
+    // floodFill(grid,startTX,startTY,target,grid[startTY][startTX])
+    // console.log("grid"+grid[h]);
     
     // Are there any safe moves left?
     
