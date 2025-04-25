@@ -4,9 +4,8 @@
     let snekBody;
     let snekHead;
 
-    // let grid=[];
-    // function gridMaker(gameState, snekBody, snekHead) {
-    //     for (let h = 0; h < gameState.board.height; h++) {
+    // let grid=gridMaker() {
+    //     for (let h = 0; h < 11; h++) {
     //         grid.push([])
     //         if (h==snekBody.y||h==snekHead.y) {
     //             for (let w = 0; w < gameState.board.width; w++) {
@@ -22,19 +21,51 @@
     //     return grid
     // }
 
-// function floodFill(grid, x, y, target, start) {
-//     if (x < 0 || x >= grid[0].length || y < 0 || y >= grid.length || grid[y][x] !== start) {
-//         return;
-//     }
+    function floodFill(grid, sRow, sClm, newColor) {
+        const oldColor = grid[sRow][sClm];
+        
+        // If the starting pixel already has the new color, return
+        if (oldColor === newColor) {
+            return grid;
+        }
+    
+        // Dimensions of the grid
+        const rows = grid.length;
+        const cols = grid[0].length;
+    
+        // Queue for BFS
+        const q = [[sRow, sClm]];
+    
+        // Change the starting pixel's color
+        grid[sRow][sClm] = newColor;
+    
+        // Direction vectors for 4 adjacent directions
+        const directions = [ [1, 0], [-1, 0], [0, 1], [0, -1] ];
+    
+        // BFS loop
+        while (q.length > 0) {
+            const [x, y] = q.shift();
+    
+            for (const [dx, dy] of directions) {
+                const nx = x + dx;
+                const ny = y + dy;
+    
+                // Check boundary conditions and color match
+                if (
+                    nx >= 0 && nx < rows && 
+                    ny >= 0 && ny < cols && 
+                    grid[nx][ny] === oldColor
+                ) {
+                    // Change color and add to queue
+                    grid[nx][ny] = newColor;
+                    q.push([nx, ny]);
+                }
+            }
+        }
+    
+        return grid;
+    }
 
-//     grid[y][x] = target;
-
-//     floodFill(grid, x + 1, y, target, start);
-//     floodFill(grid, x - 1, y, target, start);
-//     floodFill(grid, x, y + 1, target, start);
-//     floodFill(grid, x, y - 1, target, start);
-//     console.log("flood");
-// }
 export default function move(gameState){
     // console.log(grid);
     
@@ -47,6 +78,12 @@ export default function move(gameState){
         left: true,
         right: true
     };
+    
+    // let sRow = myHead.y
+    // let sClm = myHead.x
+    // let newColor = 2
+    // let foodD = floodFill(grid, sRow, sClm, newColor);
+    // console.log(foodD);
     
     
     if (myNeck.x < myHead.x) {        // Neck is left of head, don't move left
@@ -135,10 +172,10 @@ export default function move(gameState){
                 console.log(snekBody.x +" , "+ myHead.x);
                 moveSafety.left = false
             }
+            // gridMaker(snekBody, snekHead)
         }
     }
 
-    // gridMaker(gameState, snekBody, snekHead)
     // let startTX = myHead.x
     // let startTY = myHead.y
     // let target = 2
