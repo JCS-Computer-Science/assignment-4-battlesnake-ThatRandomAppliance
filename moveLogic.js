@@ -3,23 +3,36 @@
 // let finder = new PF.AStarFinder()
     let snekBody;
     let snekHead;
+    
+    function gridMaker(height,width,myBody,sneks,defaultVal = 1) {
+        let gridUC = [];
+    for (let h = 0; h < height; h++) {
+        gridUC[h] = [];
+        for (let w = 0; w < width; w++) {
+            // let mySeg = myBody[w]
+            gridUC[h][w] = defaultVal;
+            for (let i = 0; i < myBody.length; i++) {
+                console.log("my Body: "+myBody[i].x);
+                if (w==myBody[i].x) {
+                    gridUC[h][w] = 0;
+                }
+            }
+            for (let j = 0; j < sneks.length; j++) {
+                let snek=sneks[j].body
+                for (let s = 0; s < snek.length; s++) {
+                    if (w==snek[s]) {
+                        gridUC[h][w] = 0;
+                    }
+                    
+                }
+                
+            }
+        }
+    }
+    console.log(gridUC); 
+    return gridUC;
+}
 
-    // let grid=gridMaker() {
-    //     for (let h = 0; h < 11; h++) {
-    //         grid.push([])
-    //         if (h==snekBody.y||h==snekHead.y) {
-    //             for (let w = 0; w < gameState.board.width; w++) {
-    //                 if (w==snekBody.x||w==snekHead.x) {
-    //                     grid[h].push(0)
-    //                 }
-    //                 else {
-    //                     grid[h].push(1)
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     return grid
-    // }
 
     function floodFill(grid, sRow, sClm, newColor) {
         const oldColor = grid[sRow][sClm];
@@ -32,6 +45,7 @@
         // Dimensions of the grid
         const rows = grid.length;
         const cols = grid[0].length;
+        // let pthGrid = gridMaker(cols,rows)
     
         // Queue for BFS
         const q = [[sRow, sClm]];
@@ -72,6 +86,7 @@ export default function move(gameState){
     // We've included code to prevent your Battlesnake from moving backwards
     const myHead = gameState.you.body[0]; 
     const myNeck = gameState.you.body[1];
+    // const myBody = gameState.you.body;
     let moveSafety = {
         up: true,
         down: true,
@@ -127,7 +142,7 @@ export default function move(gameState){
         
     // }
     // console.log();
-    const myBody = gameState.you.body
+    let myBody = gameState.you.body
     for (let i = 0; i < myBody.length; i++) {
         let segment = myBody[i]
         if (myHead.y == segment.y && myHead.x == segment.x-1) {
@@ -175,11 +190,13 @@ export default function move(gameState){
             // gridMaker(snekBody, snekHead)
         }
     }
-
-    // let startTX = myHead.x
-    // let startTY = myHead.y
-    // let target = 2
-    // floodFill(grid,startTX,startTY,target,grid[startTY][startTX])
+    let width = gameState.board.width
+    let height = gameState.board.height
+    let grid = gridMaker(height,width, myBody, sneks)
+    let startTX = myHead.x
+    let startTY = myHead.y
+    let target = 2
+    floodFill(grid,startTX,startTY,target)
     // console.log("grid"+grid[h]);
     
     // Are there any safe moves left?
