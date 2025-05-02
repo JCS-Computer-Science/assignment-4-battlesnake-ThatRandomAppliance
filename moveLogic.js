@@ -91,6 +91,29 @@
 // }
 let selfCollide = false
 let snekCollide = false
+let directions;
+let snekHead;
+let snekBody;
+
+function colliding(head, snek, directions, moveSafety){
+    if (head.x==snek.x) {
+        return true
+    }
+    if (directions == 2) {
+        if (colliding(head.x+1,snek.x)) {
+            moveSafety.right=false
+        }
+        if (colliding(head.x-1,snek.x)) {
+            moveSafety.left=false
+        }
+    }
+    // if (directions == 3) {
+    //     if (colliding(headX+1,snekX)) {
+    //         moveSafety.right=false
+    //     }
+    // }
+
+}
 
 export default function move(gameState){
     // console.log(grid);
@@ -173,9 +196,10 @@ export default function move(gameState){
     for (let z = 1; z < sneks.length; z++) {
         let snekC = sneks[z]
         for (let s = 0; s < snekC.body.length; s++) {
-            let snekBody = snekC.body[s]
-            let snekHead = snekC.head
+            snekBody = snekC.body[s]
+            snekHead = snekC.head
             // console.log("snake:"+snekC.head.x);
+            // T-bone avoidance
             if (snekBody.x == myHead.x && snekBody.y+1 == myHead.y || snekHead.x == myHead.x && snekHead.y+2 == myHead.y) {
                 console.log(snekBody.x +" , "+ myHead.x);
                 moveSafety.down = false
@@ -196,9 +220,40 @@ export default function move(gameState){
                 moveSafety.left = false
                 snekCollide=true
             }
-            // gridMaker(snekBody, snekHead)
+
+            // head on collision avoidance
+            // if (snekHead.x == myHead.x && snekHead.y+1 == myHead.y-1) {
+            //     console.log(snekBody.x +" , "+ myHead.x);
+            //     moveSafety.down = false
+            //     snekCollide=true
+            // }
+            // if (snekHead.x == myHead.x && snekHead.y-1 == myHead.y+1) {
+            //     console.log(snekBody.x +" , "+ myHead.x);
+            //     moveSafety.up = false
+            //     snekCollide=true
+            // }
+            if (snekHead.x-1 == myHead.x+1 && snekHead.y == myHead.y) {
+                console.log(snekBody.x +" , "+ myHead.x);
+                moveSafety.right = false
+                snekCollide=true
+            }
+            if (snekHead.x+1 == myHead.x-1 && snekHead.y == myHead.y) {
+                console.log(snekBody.x +" , "+ myHead.x);
+                moveSafety.left = false
+                snekCollide=true
+            }
         }
     }
+
+    if (myHead.y==snekHead.y) {
+        directions = 2
+        colliding(myHead, snekHead, directions,moveSafety)
+    }
+    // else if (myHead.y!=snekHead.y) {
+    //     directions = 3
+    //     colliding(myHead, snekHead, directions)
+    // }
+
     // let width = gameState.board.width;
     // let height = gameState.board.height;
     // let grid = gridMaker(height,width, myBody, sneks);
