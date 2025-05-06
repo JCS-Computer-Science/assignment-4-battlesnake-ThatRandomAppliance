@@ -33,7 +33,9 @@
 // }
 
 
+
 // function floodFill(grid, sR, sC, newC) {
+    
 //     let origC = grid[sR][sC]
 //     if (origC==newC) {
 //         return grid
@@ -95,18 +97,34 @@ let directions;
 let snekHead;
 let snekBody;
 
-function colliding(head, snek, directions, moveSafety){
-    if (head.x==snek.x) {
-        return true
+function colliding(head, snek,moveSafety){
+    let deltaX = snek.x-head.x
+    console.log(deltaX);
+    
+    let deltaY = snek.y-head.y
+    console.log(deltaY);
+    if (-2<=deltaX&&deltaX<0) {
+        moveSafety.left=false
+        console.log("collide left");
+        snekCollide=true
+        
     }
-    if (directions == 2) {
-        if (colliding(head.x+1,snek.x)) {
-            moveSafety.right=false
-        }
-        if (colliding(head.x-1,snek.x)) {
-            moveSafety.left=false
-        }
+    if (0<deltaX&&deltaX<=2) {
+        moveSafety.right=false
+        console.log("collide right");
+        snekCollide=true
     }
+    if (-2<=deltaY&&deltaY<0) {
+        moveSafety.down=false
+        console.log("collide down");
+        snekCollide=true
+    }
+    if (0<deltaY&&deltaY<=2) {
+        moveSafety.up=false
+        console.log("collide up");
+        snekCollide=true
+    }
+    return moveSafety
     // if (directions == 3) {
     //     if (colliding(headX+1,snekX)) {
     //         moveSafety.right=false
@@ -146,7 +164,7 @@ export default function move(gameState){
     // gameState.board contains an object representing the game board including its width and height
     // https://docs.battlesnake.com/api/objects/board
     // gameState.board
-    console.log(gameState.board.height);
+    // console.log(gameState.board.height);
     if (myHead.x + 1 > gameState.board.width-1) {
         // console.log("no right");
         moveSafety.right = false
@@ -200,26 +218,26 @@ export default function move(gameState){
             snekHead = snekC.head
             // console.log("snake:"+snekC.head.x);
             // T-bone avoidance
-            if (snekBody.x == myHead.x && snekBody.y+1 == myHead.y || snekHead.x == myHead.x && snekHead.y+2 == myHead.y) {
-                console.log(snekBody.x +" , "+ myHead.x);
-                moveSafety.down = false
-                snekCollide=true
-            }
-            if (snekBody.x == myHead.x && snekBody.y-1 == myHead.y || snekHead.x == myHead.x && snekHead.y-2 == myHead.y) {
-                console.log(snekBody.x +" , "+ myHead.x);
-                moveSafety.up = false
-                snekCollide=true
-            }
-            if (snekBody.y == myHead.y && snekBody.x-1 == myHead.x || snekHead.x-2 == myHead.x && snekHead.y == myHead.y) {
-                console.log(snekBody.x +" , "+ myHead.x);
-                moveSafety.right = false
-                snekCollide=true
-            }
-            if (snekBody.y == myHead.y && snekBody.x+1 == myHead.x || snekHead.x+2 == myHead.x && snekHead.y == myHead.y) {
-                console.log(snekBody.x +" , "+ myHead.x);
-                moveSafety.left = false
-                snekCollide=true
-            }
+            // if (snekBody.x == myHead.x && snekBody.y+1 == myHead.y || snekHead.x == myHead.x && snekHead.y+2 == myHead.y) {
+            //     console.log(snekBody.x +" , "+ myHead.x);
+            //     moveSafety.down = false
+            //     snekCollide=true
+            // }
+            // if (snekBody.x == myHead.x && snekBody.y-1 == myHead.y || snekHead.x == myHead.x && snekHead.y-2 == myHead.y) {
+            //     console.log(snekBody.x +" , "+ myHead.x);
+            //     moveSafety.up = false
+            //     snekCollide=true
+            // }
+            // if (snekBody.y == myHead.y && snekBody.x-1 == myHead.x || snekHead.x-2 == myHead.x && snekHead.y == myHead.y) {
+            //     console.log(snekBody.x +" , "+ myHead.x);
+            //     moveSafety.right = false
+            //     snekCollide=true
+            // }
+            // if (snekBody.y == myHead.y && snekBody.x+1 == myHead.x || snekHead.x+2 == myHead.x && snekHead.y == myHead.y) {
+            //     console.log(snekBody.x +" , "+ myHead.x);
+            //     moveSafety.left = false
+            //     snekCollide=true
+            // }
 
             // head on collision avoidance
             // if (snekHead.x == myHead.x && snekHead.y+1 == myHead.y-1) {
@@ -232,23 +250,24 @@ export default function move(gameState){
             //     moveSafety.up = false
             //     snekCollide=true
             // }
-            if (snekHead.x-1 == myHead.x+1 && snekHead.y == myHead.y) {
-                console.log(snekBody.x +" , "+ myHead.x);
-                moveSafety.right = false
-                snekCollide=true
-            }
-            if (snekHead.x+1 == myHead.x-1 && snekHead.y == myHead.y) {
-                console.log(snekBody.x +" , "+ myHead.x);
-                moveSafety.left = false
-                snekCollide=true
-            }
+            // if (snekHead.x-1 == myHead.x+1 && snekHead.y == myHead.y) {
+            //     console.log(snekBody.x +" , "+ myHead.x);
+            //     moveSafety.right = false
+            //     snekCollide=true
+            // }
+            // if (snekHead.x+1 == myHead.x-1 && snekHead.y == myHead.y) {
+            //     console.log(snekBody.x +" , "+ myHead.x);
+            //     moveSafety.left = false
+            //     snekCollide=true
+            // }
+            
         }
     }
+    moveSafety=colliding(myHead, snekHead,moveSafety)
+        // directions = 2
+        // colliding(myHead, snekHead,moveSafety)
+        // snekCollide=true
 
-    if (myHead.y==snekHead.y) {
-        directions = 2
-        colliding(myHead, snekHead, directions,moveSafety)
-    }
     // else if (myHead.y!=snekHead.y) {
     //     directions = 3
     //     colliding(myHead, snekHead, directions)
@@ -267,19 +286,19 @@ if (snekCollide==false||selfCollide==false) {
     // 
     if (xSnake<=xFood) {
         moveSafety.left=false
-        console.log("no right");
+        console.log("no left");
     }
     if (xSnake>=xFood) {
         moveSafety.right=false
-        console.log("no left");
+        console.log("no right");
     }
     if (ySnake>=yFood) {
         moveSafety.up=false
-        console.log("no down");
+        console.log("no up");
     }
     if (ySnake<=yFood) {
         moveSafety.down=false
-        console.log("no up");
+        console.log("no down");
         
     }
 }
