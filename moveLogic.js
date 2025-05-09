@@ -93,35 +93,35 @@
 // }
 let selfCollide = false
 let snekCollide = false
-let directions;
 let snekHead;
 let snekBody;
+let loop=0
 
-function colliding(head, snek,moveSafety){
+function colliding(snek, head,moveSafety){
+    console.log(snek);
     let deltaX = snek.x-head.x
-    console.log(deltaX);
     
     let deltaY = snek.y-head.y
-    console.log(deltaY);
+    // console.log(deltaY);
     if (-2<=deltaX&&deltaX<0) {
         moveSafety.left=false
-        console.log("collide left");
+        // console.log("collide left");
         snekCollide=true
         
     }
     if (0<deltaX&&deltaX<=2) {
         moveSafety.right=false
-        console.log("collide right");
+        // console.log("collide right");
         snekCollide=true
     }
     if (-2<=deltaY&&deltaY<0) {
         moveSafety.down=false
-        console.log("collide down");
+        // console.log("collide down");
         snekCollide=true
     }
     if (0<deltaY&&deltaY<=2) {
         moveSafety.up=false
-        console.log("collide up");
+        // console.log("collide up");
         snekCollide=true
     }
     return moveSafety
@@ -134,18 +134,19 @@ function colliding(head, snek,moveSafety){
 }
 
 export default function move(gameState){
-    // console.log(grid);
-    
-    // We've included code to prevent your Battlesnake from moving backwards
-    const myHead = gameState.you.body[0]; 
-    const myNeck = gameState.you.body[1];
-    // const myBody = gameState.you.body;
     let moveSafety = {
         up: true,
         down: true,
         left: true,
         right: true
     };
+    // if (gameState.you.health<=60||gameState.you.length<4) {    
+    // console.log(grid);
+    
+    // We've included code to prevent your Battlesnake from moving backwards
+    const myHead = gameState.you.body[0]; 
+    const myNeck = gameState.you.body[1];
+    // const myBody = gameState.you.body;
 
     if (myNeck.x < myHead.x) {        // Neck is left of head, don't move left
         moveSafety.left = false;
@@ -216,73 +217,41 @@ export default function move(gameState){
         for (let s = 0; s < snekC.body.length; s++) {
             snekBody = snekC.body[s]
             snekHead = snekC.head
-            // console.log("snake:"+snekC.head.x);
-            // T-bone avoidance
-            // if (snekBody.x == myHead.x && snekBody.y+1 == myHead.y || snekHead.x == myHead.x && snekHead.y+2 == myHead.y) {
-            //     console.log(snekBody.x +" , "+ myHead.x);
-            //     moveSafety.down = false
-            //     snekCollide=true
-            // }
-            // if (snekBody.x == myHead.x && snekBody.y-1 == myHead.y || snekHead.x == myHead.x && snekHead.y-2 == myHead.y) {
-            //     console.log(snekBody.x +" , "+ myHead.x);
-            //     moveSafety.up = false
-            //     snekCollide=true
-            // }
-            // if (snekBody.y == myHead.y && snekBody.x-1 == myHead.x || snekHead.x-2 == myHead.x && snekHead.y == myHead.y) {
-            //     console.log(snekBody.x +" , "+ myHead.x);
-            //     moveSafety.right = false
-            //     snekCollide=true
-            // }
-            // if (snekBody.y == myHead.y && snekBody.x+1 == myHead.x || snekHead.x+2 == myHead.x && snekHead.y == myHead.y) {
-            //     console.log(snekBody.x +" , "+ myHead.x);
-            //     moveSafety.left = false
-            //     snekCollide=true
-            // }
-
-            // head on collision avoidance
-            // if (snekHead.x == myHead.x && snekHead.y+1 == myHead.y-1) {
-            //     console.log(snekBody.x +" , "+ myHead.x);
-            //     moveSafety.down = false
-            //     snekCollide=true
-            // }
-            // if (snekHead.x == myHead.x && snekHead.y-1 == myHead.y+1) {
-            //     console.log(snekBody.x +" , "+ myHead.x);
-            //     moveSafety.up = false
-            //     snekCollide=true
-            // }
-            // if (snekHead.x-1 == myHead.x+1 && snekHead.y == myHead.y) {
-            //     console.log(snekBody.x +" , "+ myHead.x);
-            //     moveSafety.right = false
-            //     snekCollide=true
-            // }
-            // if (snekHead.x+1 == myHead.x-1 && snekHead.y == myHead.y) {
-            //     console.log(snekBody.x +" , "+ myHead.x);
-            //     moveSafety.left = false
-            //     snekCollide=true
-            // }
-            
+            moveSafety=colliding(snekHead, myHead,moveSafety)
         }
     }
-    moveSafety=colliding(myHead, snekHead,moveSafety)
-        // directions = 2
-        // colliding(myHead, snekHead,moveSafety)
-        // snekCollide=true
-
-    // else if (myHead.y!=snekHead.y) {
-    //     directions = 3
-    //     colliding(myHead, snekHead, directions)
-    // }
-
-    // let width = gameState.board.width;
-    // let height = gameState.board.height;
-    // let grid = gridMaker(height,width, myBody, sneks);
-
     let xSnake = myHead.x;
     let ySnake = myHead.y;
+
+    // if (gameState.you.health>60) {
+    //     // let loop=0
+    //     moveSafety.up=false
+    //     moveSafety.down=false
+    //     moveSafety.right=false
+    //     moveSafety.left=false
+    //     console.log(moveSafety);
+    //     if (loop==0) {
+    //         moveSafety.up=true
+    //     }
+    //     if (loop==1) {
+    //         moveSafety.right=true
+    //     }
+    //     if (loop==2) {
+    //         moveSafety.down=true
+    //     }
+    //     if (loop==3) {
+    //         moveSafety.left=true
+    //     }
+    //     loop++
+    //     if (loop==3) {
+    //         loop=0
+    //     }
+    // }
+
     let xFood = gameState.board.food[0].x
     let yFood = gameState.board.food[0].y
 
-if (snekCollide==false||selfCollide==false) {
+if (snekCollide==false&&selfCollide==false&&gameState.you.health<=60) {
     // 
     if (xSnake<=xFood) {
         moveSafety.left=false
@@ -302,42 +271,31 @@ if (snekCollide==false||selfCollide==false) {
         
     }
 }
-    // let newColorS = 2;
-    // let pathGridS = floodFill(grid,startXS,startYS,newColorS);
-    
-    // console.log("food x:"+startXF);
-    // console.log("food y:"+startYF);
-    // let newColorF = 3;
-    // let pathGridF = floodFill(grid,startXF,startYF,newColorF);
+// }
+if (gameState.you.health>60) {
+    // let loop=0
+    // console.log(moveSafety);
+    if (myHead.y>myBody[myBody.length-1].y||myHead.y<myBody[myBody.length-1].y) {
+        console.log("no horizantal");
+        moveSafety.right=false
+        moveSafety.left=false
+        console.log(moveSafety);
+    }
+    else {
+        console.log("no vertical");
+        moveSafety.up=false
+        moveSafety.down=false
+        console.log(moveSafety);
+    }
+    // return { move: nextMove };
+}
 
-    // for (let p = 0; p < pathGridS.length; p++) {
-    //     for (let g = 0; g < pathGridS[0].length; g++) {
-    //         if (pathGridS[p]==pathGridF[p]) {
-    //             if (pathGridS[p][g+1]==3) {
-                    // console.log("intersect");
-
-    //             }
-    //         }
-    //     }
+// if (gameState.you.health>=60) {
+//     if (moveSafety.right=true) {
         
-    // }
-    
+//     }
+// }
 
-    // console.log("path: "+pathGrid.length);
-    // moveSafety = movePicker(pathGrid,startY,startX,moveSafety)
-    // for (let p = 0; p < pathGrid.length; p++) {
-    //     for (let g = 0; g < pathGrid[p].length; g++) {
-    //         if (pathGrid[p][g]==2) {
-    //             console.log("("+g+","+p+")");
-                
-    //         }
-            
-    //     }
-        
-    // }
-    
-    // console.log("grid"+grid[h]);
-    
     // Are there any safe moves left?
     
     //Object.keys(moveSafety) returns ["up", "down", "left", "right"]
