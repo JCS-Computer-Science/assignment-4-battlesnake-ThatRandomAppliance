@@ -311,7 +311,7 @@ if (snekCollide==false&&selfCollide==false&&gameState.you.health<=60) {
 }
 // }
 let tail = myBody.length-1
-if (gameState.you.health>60&&myBody.length>'3'&&myHead.x==tail.x||myHead.y==tail.y) {
+if (gameState.you.health>60&&myBody.length>'3') {
     // let loop=0
     console.log(myBody.length);
     console.log(myBody[tail]);
