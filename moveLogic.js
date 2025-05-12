@@ -133,6 +133,44 @@ function colliding(snek, head,moveSafety){
 
 }
 
+// function safety(moveSafety,myHead){
+//     let nextMY = myHead.y;
+//     let nextMX = myHead.x;
+//     let strike = 0
+//     if (moveSafety[0]) {
+//         // nextMY++
+//         for (let u = 0; u < myBody.length; u++) {
+//             if (nextMY+2==myBody[u].y) {
+//                 strike++
+//             }
+//             if (moveSafety[1]) {
+//                 // nextMY--
+//                 if (nextMY-2==myBody[u].y) {
+//                     strike++
+//                 }
+                
+//             }
+//             if (moveSafety[2]) {
+//                 // nextMX--
+//                 if (nextMX-2==myBody[u].x) {
+//                     strike++
+//                 }
+                
+//             }
+//             if (moveSafety[3]) {
+//                 // nextMX++
+//                 if (nextMX+2==myBody[u].x) {
+//                     strike++
+//                 }
+//             }
+//         }
+//         if (strike==4) {
+
+//         }
+        
+//     }
+// }
+
 export default function move(gameState){
     let moveSafety = {
         up: true,
@@ -272,29 +310,33 @@ if (snekCollide==false&&selfCollide==false&&gameState.you.health<=60) {
     }
 }
 // }
-if (gameState.you.health>60) {
+let tail = myBody.length-1
+if (gameState.you.health>60&&myBody.length>'3'&&myHead.x==tail.x||myHead.y==tail.y) {
     // let loop=0
-    // console.log(moveSafety);
-    if (myHead.y>myBody[myBody.length-1].y||myHead.y<myBody[myBody.length-1].y) {
-        console.log("no horizantal");
-        moveSafety.right=false
-        moveSafety.left=false
+    console.log(myBody.length);
+    console.log(myBody[tail]);
+    if (myHead.y>myBody[tail].y) {
+        console.log("down");
+        moveSafety.up=false
         console.log(moveSafety);
     }
-    else {
-        console.log("no vertical");
-        moveSafety.up=false
+    if (myHead.y<myBody[tail].y){
         moveSafety.down=false
+        console.log("up");
+    }
+    if (myHead.x<myBody[tail].x){
+        moveSafety.left=false
+        console.log("right");
+    }
+    if (myHead.x>myBody[tail].x) {
+        console.log("left");
+        moveSafety.right=false
         console.log(moveSafety);
     }
     // return { move: nextMove };
 }
 
-// if (gameState.you.health>=60) {
-//     if (moveSafety.right=true) {
-        
-//     }
-// }
+// safety(moveSafety,myHead,myBody)
 
     // Are there any safe moves left?
     
