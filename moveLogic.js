@@ -96,40 +96,51 @@ let snekCollide = false
 let snekHead;
 let snekBody;
 let loop=0
+let moveChecker=[];
 
 function colliding(snek, head,moveSafety){
     console.log(snek);
-    let deltaX = snek.x-head.x
-    
-    let deltaY = snek.y-head.y
     // console.log(deltaY);
-    if (-2<=deltaX&&deltaX<0) {
-        moveSafety.left=false
-        // console.log("collide left");
-        snekCollide=true
+    let myMoves=[]
+    let snekMoves=[]
+    snekMoves.push(snek.y+1,snek.y-1,snek.x-1,snek.x+1)
+    myMoves.push(head.y+1,head.y-1,head.x-1,head.x+1)
+    for (let i = 0; i < 4; i++) {
+        if (myMoves[i]<0) {
+            myMoves[i]=0
+        }
+        if (snekMoves[i]<0) {
+            snekMoves[i]=0
+        }
+        if (myMoves[i]>10) {
+            myMoves[i]=10
+        }
+        if (snekMoves[i]>10) {
+            snekMoves[i]=10
+        }
+        for (let j = 0; j < 4; j++) {
+            if (myMoves[i]==snekMoves[j]) {
+                if (i==0) {
+                    moveSafety.up=false
+                }
+                if (i==1) {
+                    moveSafety.down=false
+                    
+                }
+                if (i==2) {
+                    moveSafety.left=false
+                    
+                }
+                if (i==3) {
+                    moveSafety.right=false
+                }
+            }
+            
+        }
         
-    }
-    if (0<deltaX&&deltaX<=2) {
-        moveSafety.right=false
-        // console.log("collide right");
-        snekCollide=true
-    }
-    if (-2<=deltaY&&deltaY<0) {
-        moveSafety.down=false
-        // console.log("collide down");
-        snekCollide=true
-    }
-    if (0<deltaY&&deltaY<=2) {
-        moveSafety.up=false
-        // console.log("collide up");
-        snekCollide=true
+        return moveSafety
     }
     return moveSafety
-    // if (directions == 3) {
-    //     if (colliding(headX+1,snekX)) {
-    //         moveSafety.right=false
-    //     }
-    // }
 
 }
 
@@ -261,31 +272,6 @@ export default function move(gameState){
     let xSnake = myHead.x;
     let ySnake = myHead.y;
 
-    // if (gameState.you.health>60) {
-    //     // let loop=0
-    //     moveSafety.up=false
-    //     moveSafety.down=false
-    //     moveSafety.right=false
-    //     moveSafety.left=false
-    //     console.log(moveSafety);
-    //     if (loop==0) {
-    //         moveSafety.up=true
-    //     }
-    //     if (loop==1) {
-    //         moveSafety.right=true
-    //     }
-    //     if (loop==2) {
-    //         moveSafety.down=true
-    //     }
-    //     if (loop==3) {
-    //         moveSafety.left=true
-    //     }
-    //     loop++
-    //     if (loop==3) {
-    //         loop=0
-    //     }
-    // }
-
     let xFood = gameState.board.food[0].x
     let yFood = gameState.board.food[0].y
 
@@ -311,8 +297,9 @@ if (snekCollide==false&&selfCollide==false&&gameState.you.health<=60) {
 }
 // }
 let tail = myBody.length-1
+// console.log(moveSafety.every(moveSafety[direction]));
+
 if (gameState.you.health>60&&myBody.length>'3') {
-    // let loop=0
     console.log(myBody.length);
     console.log(myBody[tail]);
     if (myHead.y>myBody[tail].y) {
@@ -333,11 +320,7 @@ if (gameState.you.health>60&&myBody.length>'3') {
         moveSafety.right=false
         console.log(moveSafety);
     }
-    // return { move: nextMove };
 }
-
-// safety(moveSafety,myHead,myBody)
-
     // Are there any safe moves left?
     
     //Object.keys(moveSafety) returns ["up", "down", "left", "right"]
